@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: keynest-vault
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    autoDeploy: false

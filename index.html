@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101411">
+  <title>KeyNest — Private password vault</title>
+  <link rel="stylesheet" href="/styles.css">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="KeyNest home"><span class="brand-mark">K</span><span>keynest</span></a>
+      <div class="side-label">YOUR VAULT</div>
+      <button class="nav-item active" id="all-items"><span>▦</span> All items <span class="count" id="item-count">0</span></button>
+      <div class="side-note"><span class="live-dot"></span> Encrypted on this device</div>
+      <div class="sidebar-bottom"><button id="lock-button" class="quiet-button">↪ &nbsp; Lock vault</button><div class="small-note">Your passwords stay in your browser.</div></div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar"><div class="crumb">Personal vault <span> / </span> <b>All items</b></div><button id="add-top" class="primary-button">＋ Add password</button></header>
+      <section class="content">
+        <div class="intro"><div><div class="eyebrow">PRIVATE BY DESIGN</div><h1>Your passwords,<br><span>kept close.</span></h1><p>A local vault for the logins that matter.</p></div><div class="hero-icon">⌑</div></div>
+        <div class="toolbar"><label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search your vault" autocomplete="off"></label><div class="item-total" id="total-label">0 saved items</div></div>
+        <div id="empty-state" class="empty-state"><div class="empty-symbol">＋</div><h2>Your vault is empty</h2><p>Add a login to get started. Your vault is encrypted before it is saved.</p><button id="add-empty" class="outline-button">Add your first password</button></div>
+        <div id="entry-list" class="entry-list" aria-live="polite"></div>
+        <footer class="footnote"><span>⌑</span> Password rules and change-password links are sourced from Apple’s open password-manager-resources project.</footer>
+      </section>
+    </main>
+  </div>
+
+  <div id="unlock-screen" class="overlay">
+    <section class="unlock-card" aria-labelledby="unlock-title">
+      <div class="brand centered"><span class="brand-mark">K</span><span>keynest</span></div>
+      <div class="unlock-icon">⌑</div>
+      <div class="eyebrow">YOUR PRIVATE SPACE</div>
+      <h1 id="unlock-title">Unlock your vault</h1>
+      <p id="unlock-copy">Your vault is encrypted and stored only in this browser.</p>
+      <form id="unlock-form">
+        <label class="field-label" for="master-password">Master password</label>
+        <input id="master-password" class="text-input" type="password" minlength="12" autocomplete="current-password" required placeholder="At least 12 characters">
+        <div id="confirm-wrap" class="confirm-wrap hidden"><label class="field-label" for="confirm-password">Confirm master password</label><input id="confirm-password" class="text-input" type="password" minlength="12" autocomplete="new-password" placeholder="Type it again"></div>
+        <div id="unlock-error" class="error-message" role="alert"></div>
+        <button id="unlock-submit" class="primary-button full-button" type="submit">Unlock vault</button>
+      </form>
+      <div class="security-caption"><span>◈</span> AES-GCM encryption · key derived in your browser</div>
+    </section>
+  </div>
+
+  <div id="entry-modal" class="overlay hidden">
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-head"><div><div class="eyebrow">VAULT ITEM</div><h2 id="modal-title">Add a login</h2></div><button id="close-modal" class="icon-button" aria-label="Close">×</button></div>
+      <form id="entry-form">
+        <label class="field-label" for="entry-title">Name</label><input id="entry-title" class="text-input" required maxlength="100" placeholder="e.g. Email account">
+        <label class="field-label" for="entry-website">Website</label><input id="entry-website" class="text-input" type="text" inputmode="url" placeholder="example.com">
+        <div id="site-hint" class="site-hint hidden"></div>
+        <label class="field-label" for="entry-username">Username or email</label><input id="entry-username" class="text-input" autocomplete="off" maxlength="200" placeholder="name@example.com">
+        <div class="password-label"><label class="field-label" for="entry-password">Password</label><button type="button" id="generate-button" class="text-button">Generate</button></div>
+        <div class="password-wrap"><input id="entry-password" class="text-input" type="password" autocomplete="new-password" maxlength="1000" required><button type="button" id="toggle-password" class="reveal-button">Show</button></div>
+        <label class="field-label" for="entry-notes">Notes <span class="optional">(optional)</span></label><textarea id="entry-notes" class="text-input notes-input" maxlength="1000" placeholder="Add a private note"></textarea>
+        <div id="form-error" class="error-message" role="alert"></div>
+        <div class="modal-actions"><button type="button" id="cancel-entry" class="outline-button">Cancel</button><button class="primary-button" type="submit">Save login</button></div>
+      </form>
+    </section>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+</body>
+</html>
